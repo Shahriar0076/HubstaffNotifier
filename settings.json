@@ -1,7 +1,6 @@
 {
   "filePath": "C:\\Program Files\\Hubstaff",
-  "hubstaffShortcutPath": "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Hubstaff\\Hubstaff.lnk",
-  "delay": 5,
+  "delay": 4,
   "popUpNotification": 1,
   "screenLock": 0
 }

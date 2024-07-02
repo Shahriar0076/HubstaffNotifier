@@ -3,8 +3,4 @@ pip install os
 pip install json
 pip install time
 pip install ctypes
-pip install json
-pip install platform
-pip install win32gui
-pip install win32con
-pip install win10toast 
+pip install win10toast

@@ -1,22 +1,11 @@
-# version 1.0.1
+# version v1.0.2
 
 import subprocess
 import os
 import json
 import time
 import ctypes
-import json
-import platform
-import win32gui
-import win32con
 from win10toast import ToastNotifier
-
-def show_message_box(message, title):
-    try:
-        ctypes.windll.user32.MessageBoxW(0, message, title, 0x40 | 0x1)
-    except:
-        print("There was an in show_message_box")
-    
 
 def push_windows_notification(title, message):
     toaster = ToastNotifier()
@@ -34,16 +23,16 @@ def HubstaffTracking(filePath):
     
     # Find the start and end of the JSON part
     json_start_index = mixed_text.find('{')
-    json_end_index = mixed_text.rfind('}') + 1
+    json_end_index   = mixed_text.rfind('}') + 1
 
     # Extract the JSON part
     json_str = mixed_text[json_start_index:json_end_index]
 
     # Parse the JSON string
     try:
-        data = json.loads(json_str)
+        data           = json.loads(json_str)
         tracking_value = data.get('tracking')
-        print("Tracking value:", tracking_value == True)
+        print("Tracking:", tracking_value == True)
         return tracking_value == True
     except json.JSONDecodeError:
         print("Error: Invalid JSON format in output")  
@@ -58,9 +47,9 @@ def main():
     popUpNotification    = data.get('popUpNotification', '')    
     delay                = data.get('delay', '')
 
-    false_count = 0
+    false_count     = 0
     alert_threshold = delay
-    start_time = time.time()
+    start_time      = time.time()
     
     while True:
         result = HubstaffTracking(filePath)       

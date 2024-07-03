@@ -1,15 +1,37 @@
-# version v1.0.2
+# version v1.0.3
 
 import subprocess
 import os
 import json
 import time
 import ctypes
+import platform
+import win32gui
+import win32con
 from win10toast import ToastNotifier
 
-def push_windows_notification(title, message):
+def pushWindowsNotification(title, message):
     toaster = ToastNotifier()
     toaster.show_toast(title, message, duration=0)  # Duration is in seconds
+
+def popUpHubstaff(hubstaffShortcutPath):
+    try:
+        if platform.system() == "Windows":
+            # Start Hubstaff
+            os.startfile(hubstaffShortcutPath)
+            # Wait for the application to fully open (adjust time as needed)
+            time.sleep(5)
+            # Find the window handle and bring it to the foreground
+            app_window = win32gui.FindWindow(None, "Hubstaff")  # Adjust window title if necessary
+            if app_window:
+                win32gui.ShowWindow(app_window, win32con.SW_RESTORE)  # Restore the window if minimized                
+                win32gui.SetForegroundWindow(app_window)  # Bring the window to the foreground                
+            else:
+                print("Hubstaff window not found.")
+        else:
+            print("Currently, only Windows is supported for direct shortcut opening.")
+    except Exception as e:        
+        print(f"Failed to start or bring Hubstaff to foreground: {e}")  
 
 def HubstaffTracking(filePath):
     # Change directory to C:\Program Files\Hubstaff
@@ -45,7 +67,9 @@ def main():
     screenLock           = data.get('screenLock', '')    
     popUpWindow          = data.get('popUpWindow', '')    
     popUpNotification    = data.get('popUpNotification', '')    
+    popUpHubStaff        = data.get('popUpHubStaff', '')    
     delay                = data.get('delay', '')
+    hubstaffShortcutPath = data.get('hubstaffShortcutPath', '')   
 
     false_count     = 0
     alert_threshold = delay
@@ -65,7 +89,10 @@ def main():
                 print(f"Alert! Hubstaff tracking is off)")
 
                 if popUpNotification == 1:
-                    push_windows_notification('Hubstaff Tracking Off', "Your hubstaff tracking is turned off")                
+                    pushWindowsNotification('Hubstaff Tracking Off', "Your hubstaff tracking is turned off")
+
+                if popUpHubStaff == 1:
+                    popUpHubstaff(hubstaffShortcutPath)                                    
 
                 if screenLock == 1:
                     ctypes.windll.user32.LockWorkStation()                

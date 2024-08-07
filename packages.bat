@@ -7,3 +7,4 @@ pip install platform
 pip install win32gui
 pip install win32con
 pip install win10toast
+pip install tkinter

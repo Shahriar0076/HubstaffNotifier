@@ -1,0 +1,3 @@
+
+pythonw app.py
+exit
